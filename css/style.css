@@ -1,0 +1,1171 @@
+/* --- Fuentes --- */
+@font-face {
+  font-family: 'Pokemon Solid';
+  src: url('../assets/fonts/pokemon-solid.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gang of Three';
+  src: url('../assets/fonts/gang-of-three.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Sin tildes ni signos de apertura: usar solo en textos simples */
+@font-face {
+  font-family: 'Arcade Classic';
+  src: url('../assets/fonts/arcade-classic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- Variables --- */
+:root {
+  --bg-dark: #1E103C;
+  --bg-main: #5A3A8A;
+  --bg-body: #381f4f;
+  --accent-lilac: #D4BBE8;
+  --text-white: #ffffff;
+  --holo-gradient: linear-gradient(135deg, #00FFB2, #E3FF00, #FF007A, #8F00FF, #00C2FF);
+
+  --swiper-bg-top: #2b1b54;
+  --swiper-bg-bottom: #150a2e;
+  --type-poison-bg: #9d39e0;
+  --border-bulbasaur: #1bcf9c;
+  --border-pikachu: #fbff08;
+  --border-charmander: #ff0000;
+
+  --card-blue-top: #0a1945;
+  --card-blue-bottom: #0d2665;
+  --card-blue-border: #2b5fe0;
+  --card-blue-btn: #172c67;
+
+  --card-purple-top: #32164a;
+  --card-purple-bottom: #52277a;
+  --card-purple-border: #9d39e0;
+  --card-purple-btn: #4b2373;
+
+  --card-teal-top: #092c34;
+  --card-teal-bottom: #0a4049;
+  --card-teal-border: #1bcf9c;
+  --card-teal-btn: #0c525a;
+
+  --about-bg-start: #4b1b68;
+  --about-bg-mid: #5b2180;
+  --about-bg-end: #86309f;
+  --about-spark: #ff4fa3;
+  --about-btn-bg: rgba(138, 43, 226, 0.35);
+  --about-btn-border: rgba(190, 130, 255, 0.4);
+
+  --footer-bg: #703370;
+
+  --tear-top: clamp(4.5rem, 24vw, 8.5rem);
+  --tear-bottom: clamp(4rem, 20vw, 7.5rem);
+  --cave-fade: 80px;
+  --footer-border: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Tipografía --- */
+.font-pokemon {
+  font-family: 'Pokemon Solid', sans-serif;
+  color: #ffcb05;
+  letter-spacing: 5px;
+}
+
+.font-gang {
+  font-family: 'Gang of Three', sans-serif;
+  letter-spacing: 4px;
+  margin-top: 10px;
+}
+
+.font-arcade {
+  font-family: 'Arcade Classic', sans-serif;
+  letter-spacing: 6px;
+}
+
+.font-jersey {
+  font-family: 'Jersey 20', sans-serif;
+}
+
+/* --- Base --- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-body);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+img {
+  max-width: 100%;
+}
+
+:root {
+  --nav-h: 4.5rem;
+}
+
+.text-white-60 {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* --- Fondo con video (página de Cartas) --- */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: var(--bg-body) url('../assets/img/loop-mewtwo-poster.jpg') center / cover no-repeat;
+}
+
+.page-bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.page-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(56, 31, 79, 0.5), rgba(56, 31, 79, 0.72));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-bg-video {
+    display: none;
+  }
+}
+
+/* --- Decoración de la página de Cartas --- */
+.cards-section {
+  position: relative;
+}
+
+.cards-section::before,
+.cards-section::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+}
+
+.cards-section::before {
+  top: 1rem;
+  left: 0;
+  width: clamp(4.5rem, 26vw, 8rem);
+  aspect-ratio: 119 / 225;
+  background-image: url('../assets/img/cartas-garra-superior.png');
+}
+
+.cards-section::after {
+  bottom: 1rem;
+  left: 0;
+  width: clamp(4rem, 24vw, 7rem);
+  aspect-ratio: 92 / 172;
+  background-image: url('../assets/img/cartas-garra-inferior.png');
+}
+
+.cards-section>* {
+  position: relative;
+  z-index: 1;
+}
+
+.about-cards {
+  margin-bottom: calc(var(--tear-bottom) + 1rem);
+}
+
+/* --- Navbar --- */
+.navbar-custom {
+  background-color: var(--bg-dark);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+
+.navbar-brand-custom {
+  line-height: 1;
+  font-size: 1.1rem;
+  color: var(--text-white) !important;
+  text-decoration: none;
+}
+
+.pokeball-icon {
+  height: 3rem;
+  width: auto;
+}
+
+.offcanvas-custom {
+  background-color: var(--bg-main) !important;
+  color: var(--text-white) !important;
+}
+
+.offcanvas-custom .offcanvas-title,
+.offcanvas-custom .nav-link {
+  color: var(--text-white) !important;
+}
+
+.offcanvas-custom .nav-link {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.offcanvas-custom .nav-link:hover,
+.offcanvas-custom .nav-link.active {
+  color: var(--accent-lilac) !important;
+  font-weight: bold;
+}
+
+@media (min-width: 992px) {
+  .navbar-custom .container-fluid {
+    max-width: 1320px;
+  }
+
+  .offcanvas-custom .nav-link {
+    font-size: 1.25rem;
+    margin: 0 0 0 1.5rem;
+    padding: 0.25rem 0;
+  }
+
+  .navbar-brand-custom {
+    font-size: 1.25rem;
+  }
+}
+
+/* --- Hero y fondos --- */
+.landing-hero {
+  --hero-img: url('../assets/img/fondo-hero.jpg');
+  --hero-fade: linear-gradient(to bottom,
+      rgba(112, 51, 112, 0) 0%,
+      rgba(112, 51, 112, 0) 55%,
+      rgba(112, 51, 112, 0.6) 85%,
+      #703370 100%);
+  --card-w: clamp(190px, 56vw, 230px);
+  --card-h: calc(var(--card-w) * 1.45);
+  --hero-feet: calc(min(115vw, 440px) * 1.27);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100vh;
+  min-height: max(100svh, calc(var(--hero-feet) + var(--card-h) + 4rem));
+  width: 100%;
+  padding-top: calc(var(--nav-h) + 1.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #703370;
+}
+
+.landing-hero::before,
+.landing-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--hero-fade), var(--hero-img);
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+.landing-hero::before {
+  display: none;
+  filter: blur(30px);
+  transform: scale(1.15);
+}
+
+.landing-hero::after {
+  width: min(100%, 440px);
+  margin-inline: auto;
+}
+
+@media (min-width: 441px) {
+  .landing-hero::before {
+    display: block;
+  }
+
+  .landing-hero::after {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%);
+  }
+}
+
+.title-wrapper {
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  padding: 0 1rem;
+}
+
+.hero-eyebrow {
+  background: linear-gradient(to bottom, #feca8c 0%, #fea39b 50%, #ff70b0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(2px 0 0 #1f1911) drop-shadow(-2px 0 0 #1f1911) drop-shadow(0 2px 0 #1f1911) drop-shadow(0 -2px 0 #1f1911);
+}
+
+.title-wrapper h1 {
+  font-size: clamp(3rem, 15vw, 5.5rem);
+  margin-top: -1rem;
+}
+
+.title-wrapper h2 {
+  font-size: clamp(1.4rem, 6vw, 2.4rem);
+}
+
+.hero-carousel {
+  width: 100%;
+  max-width: 1000px;
+  margin-top: auto;
+  padding-bottom: 1.5rem;
+  z-index: 2;
+}
+
+.features-section {
+  position: relative;
+  z-index: 2;
+  background-color: #703370;
+  padding: 1rem 0 4rem;
+}
+
+.features-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% - var(--tear-top) * 0.45);
+  height: var(--tear-top);
+  background: url('../assets/img/borde-roto-cueva.png') center top / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+.content-wrapper {
+  position: relative;
+  overflow: hidden;
+  margin-top: -2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 0 calc(var(--tear-bottom) + 2rem);
+  background-image:
+    linear-gradient(to bottom, #703370 0, rgba(41, 3, 41, 0) var(--cave-fade)),
+    linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.0) 0%,
+      rgba(0, 0, 0, 0.5) 25%,
+      rgba(0, 0, 0, 0.7) 85%,
+      rgba(0, 0, 0, 0.8) 100%),
+    url('../assets/img/fondo-patron.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: repeat-y;
+}
+
+.gengar-eyes-img {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 520px);
+  height: auto;
+  margin-bottom: calc(min(92%, 520px) * -0.62);
+  filter: brightness(2.2) saturate(1.5) drop-shadow(0 0 16px rgba(18, 0, 37, 0.521));
+  pointer-events: none;
+}
+
+/* --- Carrusel --- */
+.pokemonSwiper {
+  width: 100%;
+  padding: 1.5rem 0 2.5rem;
+}
+
+.swiper-slide {
+  width: var(--card-w);
+  height: var(--card-h);
+  background: linear-gradient(180deg, var(--swiper-bg-top) 0%, var(--swiper-bg-bottom) 100%);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.9rem 1.1rem;
+  transition: filter 0.4s ease;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+}
+
+.swiper-slide:not(.swiper-slide-active) {
+  filter: brightness(0.5);
+}
+
+.card-bulbasaur {
+  border: 2px solid var(--border-bulbasaur);
+}
+
+.card-pikachu {
+  border: 2px solid var(--border-pikachu);
+}
+
+.card-charmander {
+  border: 2px solid var(--border-charmander);
+}
+
+.pokemon-img {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin: 0.4rem auto;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5));
+}
+
+.card-info h3 {
+  font-size: 1.4rem;
+}
+
+.bg-purple {
+  background-color: var(--type-poison-bg) !important;
+}
+
+.custom-nav-btn {
+  color: var(--text-white) !important;
+  background: var(--swiper-bg-bottom);
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+  border: 2px solid var(--bg-main);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.custom-nav-btn::after {
+  font-size: 1rem !important;
+  font-weight: bold;
+}
+
+@media (min-width: 768px) {
+  .landing-hero {
+    --card-w: 250px;
+  }
+
+  .custom-nav-btn {
+    width: 48px !important;
+    height: 48px !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .landing-hero {
+    --card-w: 270px;
+  }
+}
+
+/* --- Tarjetas de funciones --- */
+.feature-card {
+  border-radius: 24px;
+  padding: 1.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.icon-ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid;
+}
+
+.btn-card {
+  width: 100%;
+  border-radius: 14px;
+  color: var(--text-white) !important;
+  border: none;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-blue {
+  background: linear-gradient(180deg, var(--card-blue-top) 0%, var(--card-blue-bottom) 100%);
+  border-color: var(--card-blue-border);
+}
+
+.card-blue .icon-ring {
+  border-color: var(--card-blue-border);
+}
+
+.card-blue .btn-card {
+  background-color: var(--card-blue-btn);
+}
+
+.card-blue .btn-card:hover {
+  background-color: var(--card-blue-border);
+}
+
+.card-purple {
+  background: linear-gradient(180deg, var(--card-purple-top) 0%, var(--card-purple-bottom) 100%);
+  border-color: var(--card-purple-border);
+}
+
+.card-purple .icon-ring {
+  border-color: var(--card-purple-border);
+}
+
+.card-purple .btn-card {
+  background-color: var(--card-purple-btn);
+}
+
+.card-purple .btn-card:hover {
+  background-color: var(--card-purple-border);
+}
+
+.card-teal {
+  background: linear-gradient(180deg, var(--card-teal-top) 0%, var(--card-teal-bottom) 100%);
+  border-color: var(--card-teal-border);
+}
+
+.card-teal .icon-ring {
+  border-color: var(--card-teal-border);
+}
+
+.card-teal .btn-card {
+  background-color: var(--card-teal-btn);
+}
+
+.card-teal .btn-card:hover {
+  background-color: var(--card-teal-border);
+}
+
+.img-container img {
+  width: auto;
+  max-height: clamp(120px, 38vw, 170px);
+  object-fit: contain;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.4));
+}
+
+@media (min-width: 768px) {
+  .feature-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .btn-card {
+    font-size: 1rem;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .feature-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .btn-card {
+    font-size: 1.2rem;
+  }
+}
+
+/* --- Tarjeta "Sobre GameDev" --- */
+.about-container {
+  position: relative;
+  z-index: 3;
+  max-width: 920px;
+}
+
+.about-card {
+  position: relative;
+  min-height: 7.5rem;
+  background: linear-gradient(110deg, var(--about-bg-start) 0%, var(--about-bg-mid) 55%, var(--about-bg-end) 100%);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+}
+
+.about-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: clamp(2.75rem, 12vw, 4rem);
+  aspect-ratio: 1;
+  background: url('../assets/img/tarjeta-destello-esquina.png') top right / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+.about-media {
+  position: relative;
+  flex: 0 0 46%;
+  max-width: 46%;
+  padding: 0;
+}
+
+.about-media::before {
+  content: "";
+  display: block;
+  padding-top: 74%;
+}
+
+.about-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 30% bottom;
+}
+
+.about-cards .about-media {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.75rem 0.25rem 0 0.75rem;
+}
+
+.about-cards .about-media::before {
+  display: none;
+}
+
+.about-cards .about-img {
+  position: static;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 190px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.4));
+}
+
+.about-body {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.6rem 0.9rem 0.6rem 0.55rem;
+}
+
+.about-title {
+  font-size: clamp(1rem, 4.8vw, 1.4rem);
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
+  padding-right: 1.5rem;
+}
+
+.about-text {
+  font-size: 0.66rem;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+
+.btn-purple-outline {
+  align-self: flex-start;
+  background-color: var(--about-btn-bg);
+  border: 1px solid var(--about-btn-border);
+  color: var(--text-white);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-purple-outline:hover {
+  background-color: var(--card-purple-border);
+  color: var(--text-white);
+  transform: translateY(-2px);
+}
+
+.about-card .btn-purple-outline {
+  font-size: 0.68rem;
+  padding: 0.25rem 0.65rem;
+}
+
+@media (min-width: 576px) {
+  .about-media {
+    flex-basis: 41.6667%;
+    max-width: 41.6667%;
+  }
+
+  .about-card {
+    min-height: 10rem;
+  }
+
+  .about-title {
+    font-size: 1.75rem;
+  }
+
+  .about-text {
+    font-size: 0.9rem;
+  }
+
+  .about-card .btn-purple-outline {
+    font-size: 1rem;
+    padding: 0.5rem 1.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .about-card {
+    min-height: 12rem;
+  }
+
+  .about-cards .about-media {
+    padding: 1.5rem 1rem 0 1.5rem;
+  }
+
+  .about-cards .about-img {
+    max-height: 280px;
+  }
+
+  .about-body {
+    padding: 2rem 2.5rem;
+  }
+
+  .about-title {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    padding-right: 0;
+  }
+
+  .about-text {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* --- Tarjeta "¿Sabes cómo obtener cartas?" --- */
+.about-cards .about-media {
+  flex: 0 0 34%;
+  max-width: 34%;
+  justify-content: flex-start;
+  padding: 0.75rem 0 0 0;
+}
+
+.about-cards .about-img {
+  flex-shrink: 0;
+  max-width: none;
+  max-height: none;
+  height: 11.5rem;
+  margin-left: -3.3rem;
+}
+
+.about-cards .about-title {
+  font-size: clamp(1.15rem, 5.6vw, 1.6rem);
+}
+
+.about-cards .about-text {
+  font-size: 0.8rem;
+}
+
+.about-cards .btn-purple-outline {
+  font-size: 0.78rem;
+}
+
+@media (min-width: 576px) {
+  .about-cards .about-media {
+    flex-basis: 36%;
+    max-width: 36%;
+  }
+
+  .about-cards .about-img {
+    height: 14rem;
+    margin-left: -3rem;
+  }
+
+  .about-cards .about-title {
+    font-size: 2rem;
+  }
+
+  .about-cards .about-text {
+    font-size: 1rem;
+  }
+
+  .about-cards .btn-purple-outline {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .about-cards .about-media {
+    padding: 1.5rem 0 0 0;
+  }
+
+  .about-cards .about-img {
+    height: 17rem;
+    margin-left: -3.5rem;
+  }
+
+  .about-cards .about-title {
+    font-size: 2.5rem;
+  }
+
+  .about-cards .about-text {
+    font-size: 1.15rem;
+  }
+}
+
+/* --- Tarjeta "Sobre GameDev" (ajustes) --- */
+.about-gamedev .about-media {
+  flex: 0 0 34%;
+  max-width: 34%;
+}
+
+.about-gamedev .about-img {
+  object-position: 80% bottom;
+}
+
+.about-gamedev .about-title {
+  font-size: clamp(1.15rem, 5.6vw, 1.6rem);
+}
+
+.about-gamedev .about-text {
+  font-size: 0.8rem;
+}
+
+.about-gamedev .btn-purple-outline {
+  font-size: 0.78rem;
+}
+
+@media (min-width: 576px) {
+  .about-gamedev .about-media {
+    flex-basis: 36%;
+    max-width: 36%;
+  }
+
+  .about-gamedev .about-title {
+    font-size: 2rem;
+  }
+
+  .about-gamedev .about-text {
+    font-size: 1rem;
+  }
+
+  .about-gamedev .btn-purple-outline {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .about-gamedev .about-title {
+    font-size: 2.5rem;
+  }
+
+  .about-gamedev .about-text {
+    font-size: 1.15rem;
+  }
+}
+
+/* --- Temporizador --- */
+.timer-section {
+  margin-top: calc(var(--nav-h) + 1.5rem);
+  padding-bottom: 2.5rem;
+}
+
+.timer-banner {
+  position: relative;
+  max-width: 640px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #4A1A75 0%, #1a0b2e 100%);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  min-height: 150px;
+}
+
+.timer-title {
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.timer-text {
+  font-size: 0.9rem;
+}
+
+.timer-deco {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.timer-deco::before,
+.timer-deco::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: 100% 100%;
+}
+
+.timer-deco::before {
+  top: 0;
+  aspect-ratio: 108 / 186;
+  background-image: url('../assets/img/temporizador-garra-magenta.png');
+}
+
+.timer-deco::after {
+  width: 7rem;
+  aspect-ratio: 118 / 65;
+  background-image: url('../assets/img/temporizador-garra-azul.png');
+}
+
+.timer-banner .row {
+  position: relative;
+  z-index: 1;
+}
+
+.timer-media {
+  align-self: stretch;
+}
+
+.pikachu-out-bound {
+  position: absolute;
+  bottom: -15px;
+  left: -12px;
+  width: 125%;
+  max-width: 165px;
+  height: auto;
+  z-index: 2;
+  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.4));
+}
+
+.timer-pill {
+  background-color: var(--accent-lilac);
+  color: var(--bg-dark);
+  font-size: clamp(1.1rem, 5.5vw, 1.8rem);
+  text-align: center;
+  white-space: nowrap;
+  border-radius: 50px;
+  padding: 2px 0.5rem;
+  line-height: 1.2;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 576px) {
+  .timer-title {
+    font-size: 1.15rem;
+  }
+
+  .timer-pill {
+    font-size: 1.8rem;
+  }
+}
+
+/* --- Cartas holográficas --- */
+.holo-border {
+  background: var(--holo-gradient);
+  padding: 3px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 190px;
+  aspect-ratio: 744 / 1040;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Los PNG traen margen transparente: se recorta ampliando la imagen */
+.tcg-card {
+  --box-w: calc(100% - 6px);
+  --box-h: calc(100% - 6px);
+  position: absolute;
+  max-width: none;
+  width: calc(var(--box-w) * 1.134);
+  height: calc(var(--box-h) * 1.095);
+  left: calc(3px - var(--box-w) * 0.067);
+  top: calc(3px - var(--box-h) * 0.021);
+}
+
+/* Bloqueadas por defecto; la clase .unlocked devuelve el color */
+.tcg-card {
+  filter: grayscale(1);
+  transition: filter 0.6s ease;
+}
+
+.tcg-card.unlocked {
+  filter: none;
+}
+
+.name-pill {
+  background-color: var(--accent-lilac);
+  color: var(--bg-dark);
+  padding: 4px 1.25rem;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.holo-circle {
+  background: var(--holo-gradient);
+  padding: 3px;
+  border-radius: 50%;
+  display: inline-flex;
+}
+
+.btn-question {
+  background-color: white;
+  color: #FFB800;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+@media (min-width: 992px) {
+  .holo-border {
+    max-width: 210px;
+  }
+
+  .name-pill {
+    font-size: 1.05rem;
+  }
+}
+
+/* --- Escáner --- */
+.scanner-section {
+  min-height: calc(100svh - 12rem);
+  padding: calc(var(--nav-h) + 1.5rem) 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.scanner-section h1 {
+  font-size: clamp(1.8rem, 8vw, 3rem);
+  line-height: 1.1;
+  margin-bottom: 0.9rem !important;
+}
+
+.scanner-holo-border {
+  background: var(--holo-gradient);
+  padding: 6px;
+  border-radius: 12px;
+  width: min(100%, 320px, calc((100svh - 21rem) * 0.75));
+  min-width: 200px;
+  aspect-ratio: 3 / 4;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.scanner-camera-area {
+  background-color: #ffffff;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scanner-text {
+  font-size: 0.8rem;
+}
+
+.scanner-placeholder {
+  font-size: 0.7rem;
+}
+
+.btn-scan {
+  background-color: var(--accent-lilac);
+  color: var(--bg-dark);
+  padding: 10px 40px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  border: none;
+  letter-spacing: 1px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-scan:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(210, 180, 250, 0.4);
+  color: var(--bg-dark);
+}
+
+@media (min-width: 992px) {
+  .scanner-holo-border {
+    width: min(100%, 380px, calc((100svh - 19rem) * 0.75));
+  }
+
+  .scanner-text {
+    font-size: 1rem;
+  }
+}
+
+/* --- Footer --- */
+.game-footer {
+  position: relative;
+  background-color: var(--footer-bg);
+  border-top: 2px solid var(--footer-border);
+}
+
+.game-footer-tear {
+  border-top: 0;
+}
+
+.game-footer-tear::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: var(--tear-bottom);
+  background:
+    url('../assets/img/borde-roto-footer.png') center bottom / 100% 100% no-repeat,
+    linear-gradient(to bottom, transparent 60%, var(--footer-bg) 60%);
+  pointer-events: none;
+}
+
+.footer-logo {
+  height: clamp(3.5rem, 16vw, 5rem);
+  width: auto;
+  object-fit: contain;
+}

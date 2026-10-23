@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pokémon GameDev: colecciona cartas, resuelve acertijos y escanea códigos.">
+    <title>Pokémon GameDev | Cartas</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+20&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="page-bg" aria-hidden="true">
+        <video class="page-bg-video" autoplay muted loop playsinline preload="metadata"
+            poster="assets/img/loop-mewtwo-poster.jpg">
+            <source src="assets/video/loop-mewtwo.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top shadow-sm">
+        <div class="container-fluid px-3">
+            <a class="navbar-brand navbar-brand-custom font-jersey fw-bold" href="index.html">
+                GAME<br>DEV
+            </a>
+
+            <button class="navbar-toggler border-0 px-1" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Abrir menú">
+                <img src="assets/img/master-ball.png" alt="Menú" class="pokeball-icon">
+            </button>
+
+            <div class="offcanvas offcanvas-end offcanvas-custom" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header border-bottom border-light border-opacity-25">
+                    <h5 class="offcanvas-title font-jersey fs-3" id="offcanvasNavbarLabel">MENÚ</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                        aria-label="Cerrar menú"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 mt-3 mt-lg-0 pe-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link font-jersey" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-jersey active" aria-current="page" href="cards.html">Cartas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-jersey" href="scanner.html">Escáner</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="container timer-section">
+        <div class="timer-banner position-relative">
+            <span class="timer-deco" aria-hidden="true"></span>
+            <div class="row align-items-center h-100 g-0">
+                <div class="col-5 position-relative timer-media">
+                    <img src="assets/img/pikachu.png" alt="Pikachu" class="pikachu-out-bound">
+                </div>
+
+                <div class="col-7 py-3 ps-2 pe-3 py-sm-4 pe-sm-4">
+                    <h5 class="timer-title text-white fw-bold mb-2">Tiempo para...</h5>
+                    <p class="timer-text text-white-50 lh-sm mb-3">
+                        descubrir a los próximos Pokémon
+                    </p>
+                    <div id="countdown-timer" class="timer-pill font-jersey">
+                        Próximamente
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container cards-section pb-5">
+        <h2 class="font-pokemon text-white text-center mb-4 fs-1">TUS POKÉMON</h2>
+
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-6 col-sm-4 col-lg-3 d-flex flex-column align-items-center">
+                <div class="holo-border mb-2">
+                    <img src="assets/img/cartas/carta-garchomp.png" width="844" height="1140" loading="lazy" decoding="async" class="tcg-card" alt="Garchomp">
+                </div>
+                <div class="name-pill font-gang mb-2">Garchomp</div>
+                <div class="holo-circle">
+                    <button class="btn btn-question" aria-label="Ver información de la carta">?</button>
+                </div>
+            </div>
+
+            <div class="col-6 col-sm-4 col-lg-3 d-flex flex-column align-items-center">
+                <div class="holo-border mb-2">
+                    <img src="assets/img/cartas/carta-baxcalibur.png" width="844" height="1140" loading="lazy" decoding="async" class="tcg-card" alt="Baxcalibur">
+                </div>
+                <div class="name-pill font-gang mb-2">Baxcalibur</div>
+                <div class="holo-circle">
+                    <button class="btn btn-question" aria-label="Ver información de la carta">?</button>
+                </div>
+            </div>
+
+            <div class="col-6 col-sm-4 col-lg-3 d-flex flex-column align-items-center">
+                <div class="holo-border mb-2">
+                    <img src="assets/img/cartas/carta-diglett.png" width="844" height="1140" loading="lazy" decoding="async" class="tcg-card" alt="Diglett">
+                </div>
+                <div class="name-pill font-gang mb-2">Diglett</div>
+                <div class="holo-circle">
+                    <button class="btn btn-question" aria-label="Ver información de la carta">?</button>
+                </div>
+            </div>
+
+            <div class="col-6 col-sm-4 col-lg-3 d-flex flex-column align-items-center">
+                <div class="holo-border mb-2">
+                    <img src="assets/img/cartas/carta-gengar.png" width="844" height="1140" loading="lazy" decoding="async" class="tcg-card" alt="Gengar">
+                </div>
+                <div class="name-pill font-gang mb-2">Gengar</div>
+                <div class="holo-circle">
+                    <button class="btn btn-question" aria-label="Ver información de la carta">?</button>
+                </div>
+            </div>
+
+            <div class="col-6 col-sm-4 col-lg-3 d-flex flex-column align-items-center">
+                <div class="holo-border mb-2">
+                    <img src="assets/img/cartas/carta-haunter.png" width="844" height="1140" loading="lazy" decoding="async" class="tcg-card" alt="Haunter">
+                </div>
+                <div class="name-pill font-gang mb-2">Haunter</div>
+                <div class="holo-circle">
+                    <button class="btn btn-question" aria-label="Ver información de la carta">?</button>
+                </div>
+            </div>
+
+            <div class="col-6 col-sm-4 col-lg-3 d-flex flex-column align-items-center">
+                <div class="holo-border mb-2">
+                    <img src="assets/img/cartas/carta-ho-oh.png" width="844" height="1140" loading="lazy" decoding="async" class="tcg-card" alt="Ho-Oh">
+                </div>
+                <div class="name-pill font-gang mb-2">Ho-Oh</div>
+                <div class="holo-circle">
+                    <button class="btn btn-question" aria-label="Ver información de la carta">?</button>
+                </div>
+            </div>
+
+            <div class="col-6 col-sm-4 col-lg-3 d-flex flex-column align-items-center">
+                <div class="holo-border mb-2">
+                    <img src="assets/img/cartas/carta-lugia.png" width="844" height="1140" loading="lazy" decoding="async" class="tcg-card" alt="Lugia">
+                </div>
+                <div class="name-pill font-gang mb-2">Lugia</div>
+                <div class="holo-circle">
+                    <button class="btn btn-question" aria-label="Ver información de la carta">?</button>
+                </div>
+            </div>
+
+            <div class="col-6 col-sm-4 col-lg-3 d-flex flex-column align-items-center">
+                <div class="holo-border mb-2">
+                    <img src="assets/img/cartas/carta-marowak.png" width="844" height="1140" loading="lazy" decoding="async" class="tcg-card" alt="Marowak">
+                </div>
+                <div class="name-pill font-gang mb-2">Marowak</div>
+                <div class="holo-circle">
+                    <button class="btn btn-question" aria-label="Ver información de la carta">?</button>
+                </div>
+            </div>
+
+            <div class="col-6 col-sm-4 col-lg-3 d-flex flex-column align-items-center">
+                <div class="holo-border mb-2">
+                    <img src="assets/img/cartas/carta-ursaluna.png" width="844" height="1140" loading="lazy" decoding="async" class="tcg-card" alt="Ursaluna">
+                </div>
+                <div class="name-pill font-gang mb-2">Ursaluna</div>
+                <div class="holo-circle">
+                    <button class="btn btn-question" aria-label="Ver información de la carta">?</button>
+                </div>
+            </div>
+
+            <div class="col-6 col-sm-4 col-lg-3 d-flex flex-column align-items-center">
+                <div class="holo-border mb-2">
+                    <img src="assets/img/cartas/carta-vaporeon.png" width="844" height="1140" loading="lazy" decoding="async" class="tcg-card" alt="Vaporeon">
+                </div>
+                <div class="name-pill font-gang mb-2">Vaporeon</div>
+                <div class="holo-circle">
+                    <button class="btn btn-question" aria-label="Ver información de la carta">?</button>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="container about-container about-cards">
+        <div class="about-card row g-0">
+            <div class="about-media">
+                <img src="assets/img/info-cartas.png" loading="lazy" alt="Info cartas" class="img-fluid about-img">
+            </div>
+            <div class="about-body text-white">
+                <h2 class="about-title font-jersey">¿Sabes cómo obtener cartas?</h2>
+                <p class="about-text text-white-60">
+                    ¡Es muy sencillo!
+                    Solo tienes que escanear las cartas ubicadas ......, esto y lo
+                    otro, ¡y listo! Ya tienes tu Pokémon.
+                </p>
+                <a href="scanner.html" class="btn btn-purple-outline font-jersey d-inline-flex align-items-center">
+                    ESCANEA CARTAS <i class="bi bi-chevron-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="game-footer game-footer-tear text-white py-4 mt-auto">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="fw-bold mb-2 small">Desarrollado por:</p>
+                    <div class="d-flex justify-content-center justify-content-md-start align-items-center gap-3">
+                        <img src="assets/img/logo-gamedev.png" loading="lazy" alt="Logo GameDev" class="footer-logo">
+                        <img src="assets/img/logo-multimedia.png" loading="lazy" alt="Logo Ingeniería Multimedia" class="footer-logo">
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 text-center text-md-end">
+                    <p class="mb-0 fw-bold">Proyecto Institucional</p>
+                    <p class="mb-0 small text-white-50">Ingeniería Multimedia<br>Universidad de San Buenaventura</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
