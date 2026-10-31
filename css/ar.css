@@ -1,0 +1,475 @@
+/* --- Escáner AR a pantalla completa (todo acotado a #ar-overlay) --- */
+
+body.ar-open {
+  overflow: hidden;
+}
+
+.ar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  overflow: hidden;
+  overscroll-behavior: contain;
+  touch-action: none;
+  color: var(--text-white, #fff);
+  background: radial-gradient(circle at 50% 30%, var(--about-bg-start, #4b1b68) 0%, var(--bg-dark, #1e103c) 70%);
+}
+
+.ar-overlay.is-open {
+  display: block;
+}
+
+#ar-overlay #ar-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+#ar-overlay #ar-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#ar-overlay #scan-effect {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* --- Barra superior: volver y ver cartas --- */
+#ar-overlay .ar-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: calc(0.75rem + env(safe-area-inset-top, 0px)) 0.75rem 0.75rem;
+  pointer-events: none;
+}
+
+#ar-overlay .ar-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 1rem;
+  border: 2px solid var(--accent-lilac, #d4bbe8);
+  border-radius: 50px;
+  background: rgba(30, 16, 60, 0.88);
+  color: var(--text-white, #fff);
+  font-size: 1.35rem;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+#ar-overlay .ar-btn:hover,
+#ar-overlay .ar-btn:focus-visible {
+  border-color: #ffcb05;
+  color: var(--text-white, #fff);
+  transform: translateY(-1px);
+}
+
+/* --- Pantalla de inicio / carga --- */
+#ar-overlay #ui-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  padding-top: 14vh;
+  pointer-events: none;
+}
+
+#ar-overlay .intro-content {
+  width: min(90%, 600px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+#ar-overlay .scanner-badge {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#ar-overlay .scanner-badge-icon {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+#ar-overlay .scanner-badge-icon.is-loading {
+  animation: ar-pulse 1.2s ease-in-out infinite;
+}
+
+#ar-overlay #ui-loading h1 {
+  margin: 0;
+  font-size: clamp(1.9rem, 9vw, 3.6rem);
+  line-height: 1.05;
+  letter-spacing: 3px;
+  text-wrap: balance;
+  text-shadow: 0 4px 15px rgba(30, 16, 60, 0.9);
+}
+
+#ar-overlay .loading-line {
+  display: block;
+  width: 100px;
+  height: 4px;
+  margin: 18px 0;
+  border-radius: 10px;
+  background: #ffcb05;
+}
+
+#ar-overlay #ui-loading p {
+  width: min(90%, 500px);
+  margin: 0 auto;
+  font-size: clamp(1rem, 3vw, 1.35rem);
+  line-height: 1.5;
+  color: var(--text-white, #fff);
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.8);
+}
+
+/* --- Controles inferiores --- */
+#ar-overlay .hud {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+}
+
+#ar-overlay .panel.controls.status {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+#ar-overlay .camera-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 280px;
+  min-height: 64px;
+  padding: 12px 24px;
+  border: 2px solid var(--accent-lilac, #d4bbe8);
+  border-radius: 18px;
+  background: rgba(30, 16, 60, 0.95);
+  color: var(--text-white, #fff);
+  cursor: pointer;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+#ar-overlay .camera-toggle:hover {
+  transform: translateY(-2px);
+  background: rgba(75, 27, 104, 0.98);
+  border-color: #ffcb05;
+}
+
+#ar-overlay .camera-toggle:active {
+  transform: translateY(1px);
+}
+
+#ar-overlay .camera-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#ar-overlay .camera-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  margin-right: 12px;
+}
+
+#ar-overlay .button-divider {
+  width: 1px;
+  height: 28px;
+  margin-right: 12px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+#ar-overlay .camera-label {
+  white-space: nowrap;
+}
+
+/* La pista solo tiene sentido antes de iniciar la cámara */
+#ar-overlay .tap-hint {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  text-align: center;
+}
+
+body.ar-active #ar-overlay .tap-hint,
+body.ar-starting #ar-overlay .tap-hint {
+  display: none;
+}
+
+#ar-overlay .tap-hint img {
+  width: 25px;
+  height: 25px;
+  margin-bottom: 5px;
+}
+
+#ar-overlay .tap-hint p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--text-white, #fff);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+#ar-overlay .tap-hint strong {
+  color: #ffcb05;
+}
+
+/* --- Mensajes de estado --- */
+#ar-overlay #ar-ui {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+}
+
+#ar-overlay .ar-state {
+  display: none;
+  position: absolute;
+  top: calc(4.5rem + env(safe-area-inset-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 90%;
+  padding: 0.5rem 1.4rem;
+  border-radius: 30px;
+  background: rgba(30, 16, 60, 0.88);
+  border: 1px solid var(--accent-lilac, #d4bbe8);
+  color: var(--text-white, #fff);
+  text-align: center;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Aviso de carta desbloqueada --- */
+#ar-overlay .ar-toast {
+  position: absolute;
+  top: calc(8.5rem + env(safe-area-inset-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 45;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem 0.8rem;
+  width: max-content;
+  max-width: 92%;
+  padding: 0.5rem 0.5rem 0.5rem 1.2rem;
+  border-radius: 28px;
+  text-align: center;
+  background: #ffcb05;
+  color: var(--bg-dark, #1e103c);
+  font-size: 1.45rem;
+  line-height: 1.1;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+  animation: ar-toast-in 0.35s ease;
+}
+
+#ar-overlay .ar-toast[hidden] {
+  display: none;
+}
+
+#ar-overlay .ar-toast-link {
+  flex-shrink: 0;
+  padding: 0.35rem 0.9rem;
+  border-radius: 50px;
+  background: var(--bg-dark, #1e103c);
+  color: var(--accent-lilac, #d4bbe8);
+  text-decoration: none;
+}
+
+#ar-overlay .ar-toast-link:hover,
+#ar-overlay .ar-toast-link:focus-visible {
+  color: #fff;
+}
+
+/* --- Botón de captura (Pokébola) --- */
+#ar-overlay .capture-toggle {
+  position: absolute;
+  bottom: calc(180px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #ffcb05;
+  font-size: 1.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+}
+
+#ar-overlay .ar-pokeball-icon {
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(230, 57, 70, 0.7));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+#ar-overlay .capture-toggle:hover .ar-pokeball-icon {
+  transform: rotate(-15deg) scale(1.1);
+  filter: drop-shadow(0 6px 18px rgba(255, 203, 5, 0.9));
+}
+
+#ar-overlay .capture-toggle:active .ar-pokeball-icon {
+  animation: ar-pokeball-shake 0.5s ease;
+}
+
+#ar-overlay .capture-toggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+#ar-overlay .capture-toggle:disabled .ar-pokeball-icon {
+  filter: grayscale(0.8);
+  transform: none;
+}
+
+@keyframes ar-pokeball-shake {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(-25deg); }
+  40% { transform: rotate(20deg); }
+  60% { transform: rotate(-15deg); }
+  80% { transform: rotate(10deg); }
+}
+
+@keyframes ar-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.94); }
+}
+
+@keyframes ar-toast-in {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #ar-overlay .scanner-badge-icon.is-loading,
+  #ar-overlay .ar-toast,
+  #ar-overlay .capture-toggle:active .ar-pokeball-icon {
+    animation: none;
+  }
+}
+
+/* --- Pantallas pequeñas --- */
+@media (max-width: 600px) {
+  #ar-overlay #ui-loading {
+    padding-top: 12vh;
+  }
+
+  #ar-overlay .scanner-badge {
+    width: 65px;
+    height: 65px;
+    margin-bottom: 15px;
+  }
+
+  #ar-overlay .scanner-badge-icon {
+    width: 55px;
+    height: 55px;
+  }
+
+  #ar-overlay .capture-toggle {
+    bottom: calc(175px + env(safe-area-inset-bottom, 0px));
+  }
+
+  #ar-overlay .camera-toggle {
+    min-width: 250px;
+    min-height: 58px;
+    padding: 10px 16px;
+    font-size: 1.35rem;
+  }
+
+  #ar-overlay .camera-icon {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+@media (max-height: 650px) {
+  #ar-overlay #ui-loading {
+    padding-top: 9vh;
+  }
+
+  #ar-overlay .scanner-badge {
+    margin-bottom: 8px;
+  }
+
+  #ar-overlay .loading-line {
+    margin: 10px 0;
+  }
+
+  #ar-overlay #ui-loading p {
+    font-size: 0.9rem;
+  }
+
+  #ar-overlay .hud {
+    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+  }
+
+  #ar-overlay .tap-hint {
+    display: none;
+  }
+
+  #ar-overlay .capture-toggle {
+    bottom: calc(135px + env(safe-area-inset-bottom, 0px));
+  }
+
+  #ar-overlay .ar-pokeball-icon {
+    width: 64px;
+    height: 64px;
+  }
+}

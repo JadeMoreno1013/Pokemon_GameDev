@@ -1023,6 +1023,12 @@ img {
   filter: none;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .tcg-card {
+    transition: none;
+  }
+}
+
 .name-pill {
   background-color: var(--accent-lilac);
   color: var(--bg-dark);
@@ -1096,21 +1102,23 @@ img {
 }
 
 .scanner-camera-area {
-  background-color: #ffffff;
+  background-color: var(--bg-dark);
   width: 100%;
   height: 100%;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
+}
+
+/* Vista previa del escáner (boceto) */
+.scanner-preview {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .scanner-text {
   font-size: 0.8rem;
-}
-
-.scanner-placeholder {
-  font-size: 0.7rem;
 }
 
 .btn-scan {
