@@ -28,12 +28,6 @@ export const DEFAULT_MODEL_SCALE = 1;
 export const DEFAULT_MODEL_ROTATION = { x: Math.PI / 2, y: 0, z: 0 };
 export const DEFAULT_SKELETON_ROTATION = { x: Math.PI / 2, y: 0, z: 0 };
 export const IDENTITY_ROTATION = { x: 0, y: 0, z: 0 };
-// Registro de interacciones (heredado de otro proyecto: revisa endpoint y nombre antes de publicar)
-export const ANALYTICS = {
-  enabled: true,
-  endpoint: 'https://register-interaction-api-psi.vercel.app/api/register',
-  interactive: 'comedor-ar',
-};
 
 // Rutas de recursos (relativas a scanner.html)
 export const PATHS = {

@@ -5,7 +5,6 @@ import {
   ICONS,
   STATUS_MESSAGES,
   TIMING,
-  ANALYTICS,
   PATHS,
   DEFAULT_MODEL_ROTATION,
   DEFAULT_SKELETON_ROTATION,
@@ -275,26 +274,6 @@ const createInfoPanel = (config) => {
 
   panel.position.set(0, 1.2, 0);
   return panel;
-};
-
-const sessionId = globalThis.crypto?.randomUUID
-  ? globalThis.crypto.randomUUID()
-  : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-
-const callApiEndpoint = (target) => {
-  if (!ANALYTICS.enabled) return;
-
-  fetch(ANALYTICS.endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      interactive: ANALYTICS.interactive,
-      target: target,
-      session: sessionId,
-      device: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
-      os: navigator.userAgent,
-    }),
-  }).catch(() => {});
 };
 
 const createParticles = (state, position) => {
@@ -680,7 +659,6 @@ const handleTargetFound = (state) => {
     state.anchor.group.add(state.infoPanel);
   }
 
-  callApiEndpoint(state.config.title);
   playFoundSound();
   safeStarBurst(state);
   dom.scanEffect.style.display = 'block';
@@ -818,6 +796,7 @@ const startAR = async () => {
     updateStatus(STATUS_MESSAGES.scanning);
     started = true;
     setControlState('active');
+    window.dispatchEvent(new CustomEvent('pokemon:ar-iniciado'));
 
     clock.getDelta();
 
