@@ -1,5 +1,5 @@
 /* Fecha del temporizador (ej. "2026-12-31T00:00:00"). Con null muestra "Próximamente". */
-const FECHA_OBJETIVO = "2026-11-13T10:00:00-05:00";
+const FECHA_OBJETIVO = "2026-11-16T11:00:00-05:00";
 
 document.addEventListener("DOMContentLoaded", () => {
     iniciarCarrusel();
