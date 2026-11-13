@@ -10,6 +10,8 @@
     const CARTAS = [
         "garchomp", "baxcalibur", "diglett", "gengar", "haunter",
         "ho-oh", "lugia", "marowak", "ursaluna", "vaporeon",
+        "snorlax", "charmander", "clefairy", "clefable", "lunala",
+        "metagross", "naganadel",
     ];
 
     // Si el navegador bloquea localStorage, la colección dura mientras la página esté abierta
@@ -33,10 +35,82 @@
         }
     }
 
+    const CLAVE_VISTAS = "pokemon-gamedev:cartas-vistas";
+    let memoriaVistas = [];
+
+    function leerVistas() {
+        try {
+            const datos = JSON.parse(localStorage.getItem(CLAVE_VISTAS));
+            return Array.isArray(datos) ? datos : memoriaVistas;
+        } catch (error) {
+            return memoriaVistas;
+        }
+    }
+
+    function guardarVistas(lista) {
+        memoriaVistas = lista;
+        try {
+            localStorage.setItem(CLAVE_VISTAS, JSON.stringify(lista));
+        } catch (error) {
+            return;
+        }
+    }
+
+    function prepararDorso(marco) {
+        if (marco.querySelector(".carta-dorso")) return;
+        const dorso = document.createElement("div");
+        dorso.className = "carta-dorso";
+        dorso.setAttribute("aria-hidden", "true");
+        dorso.innerHTML = '<span class="carta-dorso-signo">?</span><span class="carta-dorso-marca">GAME DEV</span>';
+        marco.appendChild(dorso);
+    }
+
+    function mostrar(img, revelada) {
+        const marco = img.closest(".holo-border");
+        const nombre = marco.parentElement.querySelector(".name-pill");
+        marco.classList.toggle("revelada", revelada);
+        if (nombre) nombre.textContent = revelada ? img.alt : "???";
+    }
+
+    function voltear(marco) {
+        const img = marco.querySelector(".tcg-card");
+        marco.classList.add("volteando");
+        marco.addEventListener("animationend", () => marco.classList.remove("volteando"), { once: true });
+        setTimeout(() => mostrar(img, true), 400);
+        const vistas = leerVistas();
+        if (!vistas.includes(img.dataset.pokemon)) guardarVistas([...vistas, img.dataset.pokemon]);
+    }
+
+    const observador = "IntersectionObserver" in window
+        ? new IntersectionObserver((entradas) => {
+            entradas.forEach((entrada) => {
+                if (!entrada.isIntersecting) return;
+                observador.unobserve(entrada.target);
+                voltear(entrada.target);
+            });
+        }, { threshold: 0.6 })
+        : null;
+
     function aplicar() {
         const lista = leer();
+        const vistas = leerVistas();
         document.querySelectorAll(".tcg-card[data-pokemon]").forEach((img) => {
-            img.classList.toggle("unlocked", lista.includes(img.dataset.pokemon));
+            const id = img.dataset.pokemon;
+            const marco = img.closest(".holo-border");
+            const desbloqueada = lista.includes(id);
+            img.classList.toggle("unlocked", desbloqueada);
+            prepararDorso(marco);
+            if (!desbloqueada) {
+                if (observador) observador.unobserve(marco);
+                mostrar(img, false);
+                return;
+            }
+            if (marco.classList.contains("revelada")) return;
+            if (vistas.includes(id) || !observador) {
+                mostrar(img, true);
+                return;
+            }
+            observador.observe(marco);
         });
     }
 
@@ -57,6 +131,7 @@
 
         reiniciar() {
             guardar([]);
+            guardarVistas([]);
             aplicar();
         },
     };
